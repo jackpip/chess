@@ -53,4 +53,3 @@ gem 'sass-rails'
 gem 'devise', '>= 3.2.4'
 
 gem 'omniauth-facebook'
-gem 'omniauth-google'
