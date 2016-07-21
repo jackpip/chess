@@ -2,6 +2,9 @@ source 'https://rubygems.org'
 
 gem 'rails_12factor', group: :production
 gem 'simple_form'
+
+# Use Rubocop style guide
+gem 'rubocop', '~> 0.41.2', require: false
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.9'
 # Use postgresql as the database for Active Record
