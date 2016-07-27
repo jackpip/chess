@@ -22,3 +22,22 @@ h1, h2, h3, h4, h5, h6 {
   margin:0;
   padding:0;
 }
+
+.hero {
+  background-color: black;
+}
+
+
+hgroup.landing-text h1 {
+    font-weight: 700;
+    font-size: 7.594em;
+    margin: 0;
+    letter-spacing: 3px;
+    color: #fff;
+}
+
+hgroup.landing-text h4 {
+    font-style: italic;
+    margin: 0;
+    color: #fff;
+}
