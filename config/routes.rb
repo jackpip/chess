@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   root 'static_pages#index'
 
   resources :games
-  resources :users
+  resources :users, only: :show
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
