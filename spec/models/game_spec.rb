@@ -9,7 +9,7 @@ RSpec.describe Game, type: :model do
 
     end
 
-    it "should check that there are 8 Black pieces and they are in the correct position" do
+    it "should check that there are 16 Black pieces and they are in the correct position" do
 
       g = Game.create
       # check black
@@ -28,7 +28,7 @@ RSpec.describe Game, type: :model do
 
     end
 
-    it "should check that there are 8 White pieces and they are in the correct position" do
+    it "should check that there are 16 White pieces and they are in the correct position" do
 
       g = Game.create
       # check white
