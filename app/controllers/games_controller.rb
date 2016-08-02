@@ -18,6 +18,17 @@ class GamesController < ApplicationController
     @game = Game.find(params[:id])
   end
 
+  def update
+    @game = Game.find(params[:id])
+
+    if @game.black_user != nil
+      return render text: 'Not Allowed', status: :forbidden
+    end
+
+    @game.update_attributes(black_user_id: current_user.id) 
+    redirect_to game_path(@game)
+  end
+
   private
 
   def game_params
