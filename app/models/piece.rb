@@ -2,6 +2,10 @@ class Piece < ActiveRecord::Base
   belongs_to :game
   has_many :moves
 
+  def symbol
+    "#{color}-#{type.downcase}.png"
+  end
+
   def is_obstructed?(x, y)
     piece = self
     current_x = piece.current_position_x
