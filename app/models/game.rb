@@ -42,6 +42,5 @@ class Game < ActiveRecord::Base
 
     Queen.create(game_id: id, current_position_x: 3, current_position_y: 7, color: :white)
     King.create(game_id: id, current_position_x: 4, current_position_y: 7, color: :white)
-
   end
 end

@@ -4,7 +4,7 @@ RSpec.describe Piece, type: :model do
   game = FactoryGirl.create(:game)
   piece_1 = FactoryGirl.create(:piece)
   piece_2 = FactoryGirl.create(:piece, current_position_x: 6, current_position_y: 6)
-  describe ".is_obstructed?" do
+  describe '.is_obstructed?' do
     it 'should return nil on invalid input' do
       expect(piece_1.is_obstructed?(5, 7)).to eq(nil)
     end

@@ -12,7 +12,7 @@ class Piece < ActiveRecord::Base
     current_y = piece.current_position_y
     x_difference = current_x - x
     y_difference = current_y - y
-    all_pieces = Game.find(self.game_id).pieces
+    all_pieces = Game.find(game_id).pieces
 
     if (x_difference.abs != y_difference.abs) && (x_difference != 0) && (y_difference != 0)
       # puts "Invalid input"

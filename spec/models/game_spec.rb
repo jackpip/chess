@@ -5,7 +5,6 @@ RSpec.describe Game, type: :model do
     it 'it should populate board with 32 pieces' do
       g = Game.create
       expect(g.pieces.count).to eq(32)
-
     end
 
     it 'should check that there are 16 Black pieces and they are in the correct position' do
@@ -23,7 +22,6 @@ RSpec.describe Game, type: :model do
       y0_pieces = g.pieces.where(current_position_y: 0).order(:current_position_x)
       expect(y0_pieces.map { |piece| piece.type }).to eq(['Rook', 'Knight', 'Bishop', 'Queen', 'King', 'Bishop', 'Knight', 'Rook'])
       expect(y0_pieces.map { |piece| piece.color }).to eq(['black'] * 8)
-
     end
 
     it 'should check that there are 16 White pieces and they are in the correct position' do
@@ -40,7 +38,6 @@ RSpec.describe Game, type: :model do
       y7_pieces = g.pieces.where(current_position_y: 7).order(:current_position_x)
       expect(y7_pieces.map { |piece| piece.type }).to eq(['Rook', 'Knight', 'Bishop', 'Queen', 'King', 'Bishop', 'Knight', 'Rook'])
       expect(y7_pieces.map { |piece| piece.color }).to eq(['white'] * 8)
-
     end
   end
 end
