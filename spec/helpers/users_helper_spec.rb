@@ -11,4 +11,8 @@ require 'rails_helper'
 #   end
 # end
 RSpec.describe UsersHelper, type: :helper do
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 end
