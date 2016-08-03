@@ -3,4 +3,9 @@ Style/Encoding:
   Enabled: false
 
 Metrics/LineLength:
-  Max: 99
+  Max: 150
+
+AllCops:
+  Exclude:
+    - 'db/**/*'
+    - 'config/**/*'
