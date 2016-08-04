@@ -8,7 +8,9 @@
 						<%# TODO: Display gameboard from black_user_id perspective %>
 						<% query_result = @game.pieces.where(current_position_x:column, current_position_y: row).last %>
 						<% if query_result != nil %>
-							<%= image_tag query_result.symbol %>
+							<%= link_to piece_path(query_result) do %>
+								<%= image_tag query_result.symbol %>
+							<% end %>
 						<% end %>
 
 					</td>
