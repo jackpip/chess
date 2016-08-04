@@ -19,6 +19,8 @@ RSpec.describe Knight, type: :model do
       expect(knight.valid_move?(5, 5)).to be(false) # diagonal move
       expect(knight.valid_move?(4, 6)).to be(false) # vertical move
       expect(knight.valid_move?(5, 4)).to be(false) # horizontal move
+      expect(knight.valid_move?(7, 4)).to be(false)
+      expect(knight.valid_move?(4, 7)).to be(false) 
     end
   end
 end
