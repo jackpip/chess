@@ -2,6 +2,21 @@ class Piece < ActiveRecord::Base
   belongs_to :game
   has_many :moves
 
+  def move_to!(new_x, new_y)
+    piece = self
+    # variable to see if space is occupied
+    is_space_occupied = Piece.find_by(current_position_x: new_x, current_position_y: new_y)
+
+    # if space is occupied and it's a different color
+    if is_space_occupied && is_space_occupied.color != piece.color
+      is_space_occupied.destroy()
+      piece.update_attributes(current_position_x: new_x, current_position_y: new_y)
+    else
+      puts "Error, You can't capture your own piece."
+    end
+  end
+
+
   def symbol
     "#{color}-#{type.downcase}.png"
   end
