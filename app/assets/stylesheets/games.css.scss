@@ -2,26 +2,5 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-#gameboard {
 
-	border-collapse: collapse;
-	margin: 0 auto;
-	padding-top: 40px;
-	background-color: brown;
-	border: 1px solid #000000;
-	width: auto;
 
-	tr {
-
-	}
-
-	td {
-		width: 40px;
-		height: 40px;
-	}
-
-	tr:nth-child(even) td:nth-child(even), tr:nth-child(odd) td:nth-child(odd) {
- 		background: white;
-	}
-
-}
