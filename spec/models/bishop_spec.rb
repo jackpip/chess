@@ -21,7 +21,7 @@ RSpec.describe Bishop, type: :model do
     end
 
     it 'should return true when a move is in range for Bishop' do
-      expect(bishop.is_valid_move?(0, 3)).to be(true)
+      expect(bishop.is_valid_move?(2, 3)).to be(true)
     end 
   end
 end
