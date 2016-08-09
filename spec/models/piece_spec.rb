@@ -37,4 +37,11 @@ RSpec.describe Piece, type: :model do
     end
   end
 
+  describe 'move_to!' do
+    it 'shoould update has_moved attribute to true' do
+      piece_2.move_to!(3, 4)
+      expect(piece_2.has_moved).to eq(true)
+    end
+  end
+
 end

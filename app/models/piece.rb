@@ -18,6 +18,7 @@ class Piece < ActiveRecord::Base
     end
   end
 
+  # Possibly needs refactoring - shares common code with is_valid_move
   def move_to!(new_x, new_y)
     piece = self
     # variable to see if space is occupied
@@ -26,7 +27,10 @@ class Piece < ActiveRecord::Base
     # if space is occupied and it's a different color
     if is_space_occupied && is_space_occupied.color != piece.color
       is_space_occupied.destroy()
-      piece.update_attributes(current_position_x: new_x, current_position_y: new_y)
+      piece.update_attributes(current_position_x: new_x, current_position_y: new_y, has_moved: true)
+    # added in logic to check if square is empty
+    elsif !is_space_occupied
+      piece.update_attributes(current_position_x: new_x, current_position_y: new_y, has_moved: true)
     else
       puts "Error, You can't capture your own piece."
     end
