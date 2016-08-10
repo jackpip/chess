@@ -104,18 +104,77 @@ class Piece < ActiveRecord::Base
     # (0, 1) - (0, 3) so squares in between = (0, 2)
 
     # (0, 0) - (0, 3) squares in between = (0, 1), (0, 2)
+
+    # (0, 0) - (2, 0) squares between = (1, 0)
+
     difference_x = (move_to_x - self.current_position_x).abs
-    difference_y = (move_to_y - self.current_position_y).abs
+    difference_y = (move_to_y - self.current_position_y) # .abs
     count = 1
-    while count < difference_y
-      piece = Piece.find_by(current_position_x: 0, current_position_y: move_to_y - count) # (0, 2 - 1) = (0, 1)
-      if piece.present?
-        return true
-      else
-        count += 1
+
+    # (0, 6) - (0, 4) spaces between = (0, 5)
+    # move_to_y = 4, self.current_position_y = 6, difference_y = -2
+
+    # vertical
+    if difference_x == 0
+      while count < difference_y.abs
+        if difference_y < 0
+          piece = Piece.find_by(current_position_x: 0, current_position_y: move_to_y + count)
+        else
+          piece = Piece.find_by(current_position_x: 0, current_position_y: move_to_y - count)
+          if piece.present?
+            return true
+          else
+            count += 1
+          end
+        end
+        false
       end
-      false
     end
+
+    # horizontal
+    if difference_y == 0
+      while count < difference_x
+        piece = Piece.find_by(current_position_x: move_to_x - count, current_position_y: 0)
+        if piece.present?
+          return true
+        else
+          count += 1
+        end
+        false
+      end
+    end
+
+    # (0, 0) - (2, 2) squares in between = (1, 1)
+
+    # (0, 1) - (2, 3) squares in between = (1, 2)
+
+    # (0, 0) - (3, 3) squares between = (1, 1), (2, 2)
+
+    # diagonal
+
+    if difference_x == difference_y
+      while count < difference_x
+        piece = Piece.find_by(current_position_x: move_to_x - count, current_position_y: move_to_y - count)
+        if piece.present?
+          return true
+        else
+          count += 1
+          false
+        end
+      end
+    end
+
+
+
+    # while count < difference_x || count < difference_y
+    #   piece = Piece.find_by(current_position_x: move_to_x - count, current_position_y: move_to_y - count) # (0, 2 - 1) = (0, 1)
+    #   if piece.present?
+    #     return true
+    #   else
+    #     count += 1
+    #   end
+    #   false
+    # end
 
     # if Piece.where(current_position_x: 0, current_position_y: move_to_y - 2).present?
     #   return true
