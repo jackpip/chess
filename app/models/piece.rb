@@ -3,7 +3,7 @@ class Piece < ActiveRecord::Base
   has_many :moves
 
   def is_valid_move?(move_to_x, move_to_y)
-    move_to_piece = Piece.find_by(current_position_x: move_to_x, current_position_y: move_to_y)   
+    move_to_piece = Piece.find_by(current_position_x: move_to_x, current_position_y: move_to_y)
     #check move is on the board
     if move_to_x < 0 || move_to_x > 7 || move_to_y < 0 || move_to_y > 7
       return false
@@ -11,7 +11,7 @@ class Piece < ActiveRecord::Base
     elsif current_position_x == move_to_x && current_position_y == move_to_y
       return false
     #check move is not to square that contains player's own piece
-    elsif move_to_piece.present? && self.color == move_to_piece.color 
+    elsif move_to_piece.present? && self.color == move_to_piece.color
       return false
     else
       return true
@@ -89,6 +89,37 @@ class Piece < ActiveRecord::Base
       end
 
     end
+
+    false
+  end
+
+  def obstructed?(move_to_x, move_to_y)
+    unless is_valid_move?(move_to_x, move_to_y)
+      return "This is not a valid move"
+    end
+    # we need to know the squares in between
+    # (self.current_position_x,self.current_position_y) - (move_to_x, move_to_y)
+    # (0, 0) - (0, 2) so squares in between = (0, 1)
+
+    # (0, 1) - (0, 3) so squares in between = (0, 2)
+
+    # (0, 0) - (0, 3) squares in between = (0, 1), (0, 2)
+    difference_x = (move_to_x - self.current_position_x).abs
+    difference_y = (move_to_y - self.current_position_y).abs
+    count = 1
+    while count < difference_y
+      piece = Piece.find_by(current_position_x: 0, current_position_y: move_to_y - count) # (0, 2 - 1) = (0, 1)
+      if piece.present?
+        return true
+      else
+        count += 1
+      end
+      false
+    end
+
+    # if Piece.where(current_position_x: 0, current_position_y: move_to_y - 2).present?
+    #   return true
+    # end
 
     false
   end
