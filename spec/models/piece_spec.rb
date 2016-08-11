@@ -8,6 +8,8 @@ RSpec.describe Piece, type: :model do
   piece_4 = FactoryGirl.create(:piece, current_position_x: 0, current_position_y: 7)
   piece_5 = FactoryGirl.create(:piece, current_position_x: 0, current_position_y: 6)
   piece_6 = FactoryGirl.create(:piece, current_position_x: 7, current_position_y: 5)
+  piece_7 = FactoryGirl.create(:piece, current_position_x: 7, current_position_y: 0)
+  piece_8 = FactoryGirl.create(:piece, current_position_x: 7, current_position_y: 1)
   describe 'obstructed?' do
     context 'when there is an obstruction' do
       it 'should return true' do
@@ -17,9 +19,11 @@ RSpec.describe Piece, type: :model do
         expect(piece_1.obstructed?(2, 0)).to eq(true)
         expect(piece_2.obstructed?(2, 1)).to eq(true)
         expect(piece_1.obstructed?(3, 3)).to eq(true)
+        expect(piece_7.obstructed?(5, 2)).to eq(true)
         # white pieces
         expect(piece_4.obstructed?(0, 5)).to eq(true)
         expect(piece_4.obstructed?(2, 7)).to eq(true)
+        expect(piece_4.obstructed?(2, 5)).to eq(true)
       end
     end
 
@@ -29,9 +33,12 @@ RSpec.describe Piece, type: :model do
         expect(piece_2.obstructed?(0, 3)).to eq(false)
         expect(piece_2.obstructed?(2, 3)).to eq(false)
         expect(piece_2.obstructed?(4, 5)).to eq(false)
+        expect(piece_8.obstructed?(5, 3)).to eq(false)
         # white pieces
         expect(piece_5.obstructed?(0, 4)).to eq(false)
+        expect(piece_5.obstructed?(2, 4)).to eq(false)
         expect(piece_6.obstructed?(5, 5)).to eq(false)
+        expect(piece_6.obstructed?(5, 3)).to eq(false)
       end
     end
   end

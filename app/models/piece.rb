@@ -171,14 +171,66 @@ class Piece < ActiveRecord::Base
 
     # diagonal
 
-    if difference_x == difference_y
-      while count < difference_x
-        piece = Piece.find_by(current_position_x: move_to_x - count, current_position_y: move_to_y - count)
-        if piece.present?
-          return true
-        else
-          count += 1
-          false
+# bottom left moving up and right
+    # piece 4
+    # start (0, 7), move_to (2, 5)
+    # move_to_x: 2 - current_position_x: 0 difference_x: 2
+    # move_to_y: 5 - current_position_y: 7 difference_y: -2
+    # count = 1
+    # space in between (1, 6)
+
+    if difference_x.abs == difference_y.abs
+      while count < difference_x.abs
+        if difference_x > 0 && difference_y < 0
+          piece = Piece.find_by(current_position_x: move_to_x - count, current_position_y: move_to_y + count)
+          if piece.present?
+            return true
+          else
+            count += 1
+            false
+          end
+
+# bottom right moving up and left
+        # piece 6 -> (7, 5) move_to (5, 3)
+        # move_to_x: 5 - current_position_x: 7, difference_x: -2
+        # move_to_y: 3 - current_position_y: 5 difference_y: -2
+        # square between = (6, 4)
+        elsif difference_x < 0 && difference_y < 0
+          piece = Piece.find_by(current_position_x: move_to_x + count, current_position_y: move_to_y + count)
+          if piece.present?
+            return true
+          else
+            count += 1
+            false
+          end
+#top left moving down and right
+      # piece 1 (0, 0) -> (2, 2)
+      # move_to_x: 2, current_position_x: 0, difference_x: 2
+      # move_to_y: 2, current_position_y: 0, difference_y: 2
+      # space between (1, 1)
+        elsif difference_x > 0 && difference_y > 0
+            piece = Piece.find_by(current_position_x: move_to_x - count, current_position_y: move_to_y - count)
+            if piece.present?
+              return true
+            else
+              count += 1
+              false
+            end
+
+# top right moving down and left
+      # piece (7, 0) -> (5, 2)
+      # move_to_x: 5 current_position_x: 7 difference_x: -2
+      # move_to_y: 2 current_position_y: 0, difference_y: 2
+
+      # piece (7, 1) -> (5, 3)
+        elsif difference_x < 0 && difference_y > 0  # maybe should just be else
+          piece = Piece.find_by(current_position_x: move_to_x + count, current_position_y: move_to_y - count)
+          if piece.present?
+            return true
+          else
+            count += 1
+            false
+          end
         end
       end
     end
