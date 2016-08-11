@@ -48,7 +48,9 @@ class Piece < ActiveRecord::Base
     x_difference = current_x - x
     y_difference = current_y - y
     all_pieces = Game.find(game_id).pieces
-
+    # (3, 4) -> (1, 3)
+    # x_difference: 2
+    # y_difference: 1
     if (x_difference.abs != y_difference.abs) && (x_difference != 0) && (y_difference != 0)
       # puts "Invalid input"
       # flash.now[:alert] = 'Invalid input'
@@ -97,6 +99,7 @@ class Piece < ActiveRecord::Base
     unless is_valid_move?(move_to_x, move_to_y)
       return "This is not a valid move"
     end
+
     # we need to know the squares in between
     # (self.current_position_x,self.current_position_y) - (move_to_x, move_to_y)
     # (0, 0) - (0, 2) so squares in between = (0, 1)
@@ -110,6 +113,11 @@ class Piece < ActiveRecord::Base
     difference_x = (move_to_x - self.current_position_x) # .abs
     difference_y = (move_to_y - self.current_position_y) # .abs
     count = 1
+
+    if (difference_x.abs != difference_y.abs) && (difference_x != 0) && (difference_y != 0)
+    #  flash.now[:alert] = 'Invalid input'
+      raise ArgumentError.new("That is not a valid input")
+    end
 
     # (0, 6) - (0, 4) spaces between = (0, 5)
     # move_to_y = 4, self.current_position_y = 6, difference_y = -2
@@ -162,12 +170,6 @@ class Piece < ActiveRecord::Base
         false
       end
     end
-
-    # (0, 0) - (2, 2) squares in between = (1, 1)
-
-    # (0, 1) - (2, 3) squares in between = (1, 2)
-
-    # (0, 0) - (3, 3) squares between = (1, 1), (2, 2)
 
     # diagonal
 
@@ -222,7 +224,6 @@ class Piece < ActiveRecord::Base
       # move_to_x: 5 current_position_x: 7 difference_x: -2
       # move_to_y: 2 current_position_y: 0, difference_y: 2
 
-      # piece (7, 1) -> (5, 3)
         elsif difference_x < 0 && difference_y > 0  # maybe should just be else
           piece = Piece.find_by(current_position_x: move_to_x + count, current_position_y: move_to_y - count)
           if piece.present?
@@ -234,23 +235,6 @@ class Piece < ActiveRecord::Base
         end
       end
     end
-
-
-
-    # while count < difference_x || count < difference_y
-    #   piece = Piece.find_by(current_position_x: move_to_x - count, current_position_y: move_to_y - count) # (0, 2 - 1) = (0, 1)
-    #   if piece.present?
-    #     return true
-    #   else
-    #     count += 1
-    #   end
-    #   false
-    # end
-
-    # if Piece.where(current_position_x: 0, current_position_y: move_to_y - 2).present?
-    #   return true
-    # end
-
     false
   end
 end
