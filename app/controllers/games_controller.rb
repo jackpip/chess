@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!  
 
   def new
     @game = Game.new
@@ -7,6 +7,7 @@ class GamesController < ApplicationController
 
   def create
     @game = current_user.white_games.create(game_params)
+    
     if @game.valid?
       redirect_to user_path(current_user)
     else
@@ -15,7 +16,11 @@ class GamesController < ApplicationController
   end
 
   def show
-    @game = Game.find(params[:id])
+    @game = Game.find_by_id(params[:id])
+
+    if @game.blank?
+      return render text: 'Not Found :(', status: :not_found
+    end
   end
 
   def update

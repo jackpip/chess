@@ -3,12 +3,12 @@ require 'rails_helper'
 RSpec.describe Game, type: :model do
   describe 'populate_board!' do
     it 'it should populate board with 32 pieces' do
-      g = Game.create
+      g = Game.create(name: 'Divergence')
       expect(g.pieces.count).to eq(32)
     end
 
     it 'should check that there are 16 Black pieces and they are in the correct position' do
-      g = Game.create
+      g = Game.create(name: 'Divergence')
       # check black
       y1_pieces = g.pieces.where(current_position_y: 1)
       expect(y1_pieces.count).to eq(8)
@@ -25,7 +25,7 @@ RSpec.describe Game, type: :model do
     end
 
     it 'should check that there are 16 White pieces and they are in the correct position' do
-      g = Game.create
+      g = Game.create(name: 'Divergence')
       # check white
       y6_pieces = g.pieces.where(current_position_y: 6)
       expect(y6_pieces.count).to eq(8)
