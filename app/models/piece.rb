@@ -118,14 +118,14 @@ class Piece < ActiveRecord::Base
     if difference_x == 0
       while count < difference_y.abs
         if difference_y < 0
-          piece = Piece.find_by(current_position_x: 0, current_position_y: move_to_y + count)
+          piece = Piece.find_by(current_position_x: move_to_x, current_position_y: move_to_y + count)
           if piece.present?
             return true
           else
             count += 1
           end
         else
-          piece = Piece.find_by(current_position_x: 0, current_position_y: move_to_y - count)
+          piece = Piece.find_by(current_position_x: move_to_x, current_position_y: move_to_y - count)
           if piece.present?
             return true
           else
@@ -139,19 +139,20 @@ class Piece < ActiveRecord::Base
     # piece_6
     # (7, 5) -> (5, 5)
     # move_to_x = 5, self.current_position_x = 7, difference_x = -2
+    # (6, 5)
 
     # horizontal
     if difference_y == 0
       while count < difference_x.abs
         if difference_x < 0
-          piece = Piece.find_by(current_position_x: move_to_x + count, current_position_y: 0)
+          piece = Piece.find_by(current_position_x: move_to_x - count, current_position_y: move_to_y)
           if piece.present?
             return true
           else
             count += 1
           end
         else
-          piece = Piece.find_by(current_position_x: move_to_x - count, current_position_y: 0)
+          piece = Piece.find_by(current_position_x: move_to_x + count, current_position_y: move_to_y)
           if piece.present?
             return true
           else
