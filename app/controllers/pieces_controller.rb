@@ -8,9 +8,10 @@ class PiecesController < ApplicationController
 
   def update
     @piece = Piece.find(params[:id])
-    @game = @piece.game
+    @game = @piece.game_id
     @piece.update_attributes(piece_params)
-    redirect_to games_path(@game)
+    render json: nil, status: :ok
+    #redirect_to game_path(@game)
   end
 
   private
