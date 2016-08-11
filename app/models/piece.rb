@@ -107,7 +107,7 @@ class Piece < ActiveRecord::Base
 
     # (0, 0) - (2, 0) squares between = (1, 0)
 
-    difference_x = (move_to_x - self.current_position_x).abs
+    difference_x = (move_to_x - self.current_position_x) # .abs
     difference_y = (move_to_y - self.current_position_y) # .abs
     count = 1
 
@@ -119,6 +119,11 @@ class Piece < ActiveRecord::Base
       while count < difference_y.abs
         if difference_y < 0
           piece = Piece.find_by(current_position_x: 0, current_position_y: move_to_y + count)
+          if piece.present?
+            return true
+          else
+            count += 1
+          end
         else
           piece = Piece.find_by(current_position_x: 0, current_position_y: move_to_y - count)
           if piece.present?
@@ -131,14 +136,27 @@ class Piece < ActiveRecord::Base
       end
     end
 
+    # piece_6
+    # (7, 5) -> (5, 5)
+    # move_to_x = 5, self.current_position_x = 7, difference_x = -2
+
     # horizontal
     if difference_y == 0
-      while count < difference_x
-        piece = Piece.find_by(current_position_x: move_to_x - count, current_position_y: 0)
-        if piece.present?
-          return true
+      while count < difference_x.abs
+        if difference_x < 0
+          piece = Piece.find_by(current_position_x: move_to_x + count, current_position_y: 0)
+          if piece.present?
+            return true
+          else
+            count += 1
+          end
         else
-          count += 1
+          piece = Piece.find_by(current_position_x: move_to_x - count, current_position_y: 0)
+          if piece.present?
+            return true
+          else
+            count += 1
+          end
         end
         false
       end
