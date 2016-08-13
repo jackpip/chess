@@ -3,7 +3,7 @@ class Piece < ActiveRecord::Base
   has_many :moves
 
   def is_valid_move?(move_to_x, move_to_y)
-    move_to_piece = Piece.find_by(current_position_x: move_to_x, current_position_y: move_to_y)   
+    move_to_piece = Piece.find_by(current_position_x: move_to_x, current_position_y: move_to_y)
     #check move is on the board
     if move_to_x < 0 || move_to_x > 7 || move_to_y < 0 || move_to_y > 7
       return false
@@ -11,7 +11,7 @@ class Piece < ActiveRecord::Base
     elsif current_position_x == move_to_x && current_position_y == move_to_y
       return false
     #check move is not to square that contains player's own piece
-    elsif move_to_piece.present? && self.color == move_to_piece.color 
+    elsif move_to_piece.present? && self.color == move_to_piece.color
       return false
     else
       return true
@@ -27,8 +27,11 @@ class Piece < ActiveRecord::Base
     if is_space_occupied && is_space_occupied.color != piece.color
       is_space_occupied.destroy()
       piece.update_attributes(current_position_x: new_x, current_position_y: new_y)
+    # if space is occupied and it's the same color
+    elsif is_space_occupied && is_space_occupied.color == piece.color
+      return "Error, You can't capture your own piece."
     else
-      puts "Error, You can't capture your own piece."
+      piece.update_attributes(current_position_x: new_x, current_position_y: new_y)
     end
   end
 
