@@ -8,10 +8,22 @@ class PiecesController < ApplicationController
 
   def update
     @piece = Piece.find(params[:id])
-    @game = @piece.game_id
-    @piece.update_attributes(piece_params)
-    render json: nil, status: :ok
-    #redirect_to game_path(@game)
+    @game = @piece.game
+    x = params[:piece][:current_position_x].to_i
+    y = params[:piece][:current_position_y].to_i
+    puts '*' * 50
+    puts @piece.inspect
+    puts params.inspect
+    puts params[:piece][:current_position_x].inspect
+    puts "checking if #{@piece} can move from #{@piece.current_position_x}, #{@piece.current_position_y} to #{x}, #{y}"
+    puts '*' * 50
+    if @piece.valid_move?(x, y)
+      @piece.update_attributes(piece_params)
+      render json: nil, status: :ok
+      #redirect_to game_path(@game)
+    else
+      render text: 'Invalid move!', status: :unauthorized
+    end
   end
 
   private
