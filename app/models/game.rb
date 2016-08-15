@@ -1,4 +1,6 @@
 class Game < ActiveRecord::Base
+  validates :name, presence: true
+  
   belongs_to :white_user, class_name: 'User'
   belongs_to :black_user, class_name: 'User'
   has_many :moves
