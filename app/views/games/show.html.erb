@@ -27,27 +27,34 @@
           }
         });
       },
-      revert: "invalid"
+      revert: "invalid",
+      revertDuration: 0
     });
 
     $('td').droppable({
       drop: function(ev, ui) {
         var dropped = ui.draggable;
         var droppedOn = $(this);
-        $(dropped).detach().css({top: 0,left: 0}).appendTo(droppedOn);
-        droppedOn.addClass("highlight");
-        $(ev['target']).droppable('disable');
         var pieceLink = dropped.attr("href");
         var x = droppedOn.data("x-position");
         var y = droppedOn.data("y-position");
-
+        
         $.post(pieceLink, {
           _method: "PUT",
           piece: {
             current_position_x: x,
             current_position_y: y
           }
+        })
+        .fail(function(response) {
+          $(ui.helper).css({top: 0,left: 0});
+        })
+        .done(function(msg) {
+          $(dropped).detach().css({top: 0,left: 0}).appendTo(droppedOn);
+          droppedOn.addClass("highlight");
+          $(ev['target']).droppable('disable');
         });
+
       }
     });
 
