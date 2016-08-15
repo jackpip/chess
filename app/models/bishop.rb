@@ -1,5 +1,5 @@
 class Bishop < Piece
-  def is_valid_move?(move_to_x, move_to_y)
+  def valid_move?(move_to_x, move_to_y)
 
     if is_obstructed?(move_to_x, move_to_y)
       return false
