@@ -13,6 +13,9 @@ class Piece < ActiveRecord::Base
     #check move is not to square that contains player's own piece
     elsif move_to_piece.present? && self.color == move_to_piece.color
       return false
+    # check whether move is obstructed
+    elsif obstructed?(move_to_x, move_to_y)
+      return false
     else
       return true
     end
@@ -28,14 +31,12 @@ class Piece < ActiveRecord::Base
     if is_space_occupied && is_space_occupied.color != piece.color
       is_space_occupied.destroy()
       piece.update_attributes(current_position_x: new_x, current_position_y: new_y, has_moved: true)
-    # added in logic to check if square is empty
-    elsif !is_space_occupied
-      piece.update_attributes(current_position_x: new_x, current_position_y: new_y, has_moved: true)
     # if space is occupied and it's the same color
     elsif is_space_occupied && is_space_occupied.color == piece.color
       return "Error, You can't capture your own piece."
+    # if it's unoccupied
     else
-      piece.update_attributes(current_position_x: new_x, current_position_y: new_y)
+      piece.update_attributes(current_position_x: new_x, current_position_y: new_y, has_moved: true)
     end
   end
 
@@ -99,9 +100,9 @@ class Piece < ActiveRecord::Base
   end
 
   def obstructed?(move_to_x, move_to_y)
-    unless is_valid_move?(move_to_x, move_to_y)
-      return "This is not a valid move"
-    end
+    # unless valid_move?(move_to_x, move_to_y)
+    #   return "This is not a valid move"
+    # end
 
     # we need to know the squares in between
     # (self.current_position_x,self.current_position_y) - (move_to_x, move_to_y)
@@ -117,6 +118,8 @@ class Piece < ActiveRecord::Base
     difference_y = (move_to_y - self.current_position_y) # .abs
     count = 1
 
+    # shouldn't be in obstructed
+    # if it's not diagnoal, horizontal, or vertical
     if (difference_x.abs != difference_y.abs) && (difference_x != 0) && (difference_y != 0)
     #  flash.now[:alert] = 'Invalid input'
       raise ArgumentError.new("That is not a valid input")

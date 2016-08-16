@@ -75,11 +75,11 @@ RSpec.describe Piece, type: :model do
     end
 
     it 'should return false if move_to square is same square' do
-      expect(piece_2.valid_move?(6, 5)).to eq(false)
+      expect(piece_2.valid_move?(0, 1)).to eq(false)
     end
 
     it 'should return false if move_to square contains piece with same color' do
-      expect(piece_3.valid_move?(0, 0)).to eq(false) 
+      expect(piece_3.valid_move?(0, 0)).to eq(false)
     end
 
     it 'should return true if move_to square is on board, is a different square and does not contain piece with same color' do
