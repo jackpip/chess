@@ -20,21 +20,43 @@ class King < Piece
   end
 
   def castling?(x, y)
+    # (self.current_position_x..x).each do |position|
+    #   positions = pieces.where(current_position_x: position).to_a
+    #   positions.each
+    #   return false if game.check('black')
+    # end
+
+    # if king is currently in check, castling is false
+    # if king would castle in to check, castling is false
+    # if king hasn't moved and rook hasn't moved
+    # if king would castle through check
+    x_difference = current_position_x - x
+
+    # Queenside
     if x < self.current_position_x
-      queenside_rook = Piece.find_by(current_position_x: 0, current_position_y: y)
-      # if king hasn't moved and rook hasn't moved
+      queenside_rook = Piece.find_by(type: 'Rook', current_position_x: 0, current_position_y: y)
       if self.has_moved == false && queenside_rook.has_moved == false
         # is_obstructed? returns true, so !is_obstructed? will make castling? true
-        return !self.obstructed?(x, y)
+        # return !self.obstructed?(x, y)
+        if x_difference.abs != 2 && y == current_position_y
+          false
+        else
+          true
+        end
       end
     end
 
     if x > self.current_position_x
-      kingside_rook = Piece.find_by(current_position_x: 7, current_position_y: y)
+      kingside_rook = Piece.find_by(type: 'Rook', current_position_x: 7, current_position_y: y)
       # if king hasn't moved and rook hasn't moved
       if self.has_moved == false && kingside_rook.has_moved == false
         # is_obstructed? returns true, so !is_obstructed? will make castling? true
-        return !self.obstructed?(x, y)
+        # return !self.obstructed?(x, y)
+        if x_difference.abs == 2 && y == current_position_y
+          true
+        else
+          false
+        end
       end
     end
   end

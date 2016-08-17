@@ -4,7 +4,7 @@ RSpec.describe Piece, type: :model do
   game = FactoryGirl.create(:game)
   piece_1 = FactoryGirl.create(:piece, current_position_x: 0, current_position_y: 0)
   piece_2 = FactoryGirl.create(:piece, current_position_x: 0, current_position_y: 1)
-  piece_3 = FactoryGirl.create(:piece, current_position_x: 0, current_position_y: 0, color: 'black')
+  piece_3 = FactoryGirl.create(:piece, current_position_x: 3, current_position_y: 3, color: 'black')
   piece_4 = FactoryGirl.create(:piece, current_position_x: 0, current_position_y: 7)
   piece_5 = FactoryGirl.create(:piece, current_position_x: 0, current_position_y: 6)
   piece_6 = FactoryGirl.create(:piece, current_position_x: 7, current_position_y: 5)
@@ -48,12 +48,6 @@ RSpec.describe Piece, type: :model do
 
       end
     end
-
-    context 'when the input is invalid' do
-      it 'should return "invalid input"' do
-        expect { piece_9.obstructed?(1, 3) }.to raise_error(ArgumentError)
-      end
-    end
   end
   # describe '.is_obstructed?' do
   #   it 'should return nil on invalid input' do
@@ -83,7 +77,7 @@ RSpec.describe Piece, type: :model do
     end
 
     it 'should return true if move_to square is on board, is a different square and does not contain piece with same color' do
-      expect(piece_3.valid_move?(3, 3)).to eq(true)
+      expect(piece_3.valid_move?(3, 4)).to eq(true)
     end
   end
 

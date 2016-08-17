@@ -3,12 +3,18 @@ class Piece < ActiveRecord::Base
   has_many :moves
 
   def valid_move?(move_to_x, move_to_y)
+    difference_x = move_to_x - current_position_x
+    difference_y = move_to_y - current_position_y
+
     move_to_piece = Piece.find_by(current_position_x: move_to_x, current_position_y: move_to_y, game: game)
     #check move is on the board
     if move_to_x < 0 || move_to_x > 7 || move_to_y < 0 || move_to_y > 7
       return false
     #check move is not to the same square
     elsif current_position_x == move_to_x && current_position_y == move_to_y
+      return false
+    # check move is not vertical, horizontal, or diagonal
+    elsif (difference_x.abs != difference_y.abs) && (difference_x != 0) && (difference_y != 0)
       return false
     #check move is not to square that contains player's own piece
     elsif move_to_piece.present? && self.color == move_to_piece.color
@@ -100,10 +106,6 @@ class Piece < ActiveRecord::Base
   end
 
   def obstructed?(move_to_x, move_to_y)
-    # unless valid_move?(move_to_x, move_to_y)
-    #   return "This is not a valid move"
-    # end
-
     # we need to know the squares in between
     # (self.current_position_x,self.current_position_y) - (move_to_x, move_to_y)
     # (0, 0) - (0, 2) so squares in between = (0, 1)
@@ -117,13 +119,6 @@ class Piece < ActiveRecord::Base
     difference_x = (move_to_x - self.current_position_x) # .abs
     difference_y = (move_to_y - self.current_position_y) # .abs
     count = 1
-
-    # shouldn't be in obstructed
-    # if it's not diagnoal, horizontal, or vertical
-    if (difference_x.abs != difference_y.abs) && (difference_x != 0) && (difference_y != 0)
-    #  flash.now[:alert] = 'Invalid input'
-      raise ArgumentError.new("That is not a valid input")
-    end
 
     # (0, 6) - (0, 4) spaces between = (0, 5)
     # move_to_y = 4, self.current_position_y = 6, difference_y = -2
