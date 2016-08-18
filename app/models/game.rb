@@ -19,6 +19,10 @@ class Game < ActiveRecord::Base
       opponents = pieces.where(color: 'white').to_a
     end
 
+    # opponents.any? do |piece| 
+    #   piece.valid_move?(king.current_position_x, king.current_position_y) 
+    # end
+
     opponents.each do |piece|
       if piece.valid_move?(king.current_position_x, king.current_position_y)
         # TODO: not sure if we need to keep track of the piece causing check

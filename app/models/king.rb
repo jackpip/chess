@@ -1,15 +1,15 @@
 class King < Piece
   def valid_move?(move_to_x, move_to_y)
+
     # if this method is called from castling via obstructed
-      # then it doesn't matter if range > 1
-    if super == true && proper_length?(move_to_x, move_to_y)
+    # then it doesn't matter if range > 1
+    if super == true && (proper_length?(move_to_x, move_to_y) || castling?(move_to_x, move_to_y))
       return true
     # elsif super == true && move_to_x == 1 || move_to_x == 6
-    #   return true
+    # return true
     else
       return false
     end
-
   end
 
   def proper_length?(move_to_x, move_to_y)
@@ -38,10 +38,10 @@ class King < Piece
       if self.has_moved == false && queenside_rook.has_moved == false
         # is_obstructed? returns true, so !is_obstructed? will make castling? true
         # return !self.obstructed?(x, y)
-        if x_difference.abs != 2 && y == current_position_y
-          false
-        else
+        if x_difference.abs == 2 && y == current_position_y
           true
+        else
+          false
         end
       end
     end

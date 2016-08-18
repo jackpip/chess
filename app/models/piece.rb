@@ -38,9 +38,10 @@ class Piece < ActiveRecord::Base
       is_space_occupied.destroy()
       piece.update_attributes(current_position_x: new_x, current_position_y: new_y, has_moved: true)
     # if space is occupied and it's the same color
-    elsif is_space_occupied && is_space_occupied.color == piece.color
-      return "Error, You can't capture your own piece."
-    # if it's unoccupied
+    # actutally already checked above in valid_move?
+    # elsif is_space_occupied && is_space_occupied.color == piece.color
+    #   return "Error, You can't capture your own piece."
+    # # if it's unoccupied
     else
       piece.update_attributes(current_position_x: new_x, current_position_y: new_y, has_moved: true)
     end
