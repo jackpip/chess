@@ -41,7 +41,7 @@ class Piece < ActiveRecord::Base
   end
 
 
-  def symbol
+  def image
     "#{color}-#{type.downcase}.png"
   end
 
