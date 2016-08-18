@@ -30,22 +30,35 @@ RSpec.describe King, type: :model do
   king = Piece.find_by(current_position_x: 4, current_position_y: 0, game: castle_game)
   king3 = Piece.find_by(current_position_x: 4, current_position_y: 7, game: castle_game)
   describe 'castling' do
+    
     it 'should return true if castling is valid' do
-      expect(king.castling?(6, 0)).to be(true)
-    end
+      # Kingside top
+      expect(king.castling?(6, 0)).to eq(true)
 
-    # for some reason a Queenside castle is returning nil
-    # it 'should return true if castling is valid' do
-      # expect(king3.castling?(2, 7)).to be(true)
-    # end
+      #kingside bottom
+      expect(king3.castling?(6, 7)).to eq(true)
 
-    it 'should return true if castling is valid' do
-      expect(king3.castling?(6, 7)).to be(true)
+      # Queenside top
+      expect(king.castling?(2, 0)).to eq(true)
+
+      # Queenside bottom
+      expect(king3.castling?(2, 7)).to eq(true)
     end
 
     it 'should return false if castling is invalid' do
-      expect(king.castling?(7, 0)).to be(false)
-      expect(king.castling?(5, 0)).to be(false)
+      # Kingside top
+      expect(king.castling?(7, 0)).to eq(false)
+      expect(king.castling?(5, 0)).to eq(false)
+      #Kingside bottom
+      expect(king3.castling?(7, 7)).to eq(false)
+      expect(king3.castling?(5, 7)).to eq(false)
+
+      #Queenside top
+      expect(king.castling?(1, 0)).to eq(false)
+      expect(king.castling?(3, 0)).to eq(false)
+      #Queenside bottom
+      expect(king3.castling?(1, 7)).to eq(false)
+      expect(king3.castling?(3, 7)).to eq(false)
     end
   end
 end

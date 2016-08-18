@@ -3,7 +3,7 @@ class Bishop < Piece
 
     if obstructed?(move_to_x, move_to_y)
       return false
-    elsif super == true && (current_position_x - move_to_x).abs == (current_position_y - move_to_y).abs 
+    elsif super && (current_position_x - move_to_x).abs == (current_position_y - move_to_y).abs 
       return true
     else
       return false

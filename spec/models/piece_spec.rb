@@ -49,19 +49,6 @@ RSpec.describe Piece, type: :model do
       end
     end
   end
-  # describe '.is_obstructed?' do
-  #   it 'should return nil on invalid input' do
-  #     expect(piece_1.is_obstructed?(8, 8)).to eq(nil)
-  #   end
-  #
-  #   it 'should return true on obstruction' do
-  #     expect(piece_1.is_obstructed?(5, 7)).to eq(true)
-  #   end
-  #
-  #   it 'should return false on no obstruction' do
-  #     expect(piece_1.is_obstructed?(4, 6)).to eq(false)
-  #   end
-  # end
 
   describe 'valid_move?' do
     it 'should return false if move_to square is off board' do
@@ -81,7 +68,6 @@ RSpec.describe Piece, type: :model do
     end
   end
 
-# this test may need refactoring once move_to! is refactored!
   describe 'move_to!' do
     it 'should update has_moved attribute to true' do
       piece_3.move_to!(0, 4)

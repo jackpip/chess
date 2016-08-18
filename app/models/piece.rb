@@ -13,15 +13,8 @@ class Piece < ActiveRecord::Base
     #check move is not to the same square
     elsif current_position_x == move_to_x && current_position_y == move_to_y
       return false
-    # check move is a real move. Has to be vertical, horizontal, or diagonal
-    #elsif (difference_x.abs != difference_y.abs) && (difference_x != 0) && (difference_y != 0)
-      #return false
-    #check move is not to square that contains player's own piece
     elsif move_to_piece.present? && self.color == move_to_piece.color
       return false
-    # check whether move is obstructed
-    #elsif obstructed?(move_to_x, move_to_y)
-      #return false
     else
       return true
     end
@@ -110,21 +103,9 @@ class Piece < ActiveRecord::Base
 
   def obstructed?(move_to_x, move_to_y)
     # we need to know the squares in between
-    # (self.current_position_x,self.current_position_y) - (move_to_x, move_to_y)
-    # (0, 0) - (0, 2) so squares in between = (0, 1)
-
-    # (0, 1) - (0, 3) so squares in between = (0, 2)
-
-    # (0, 0) - (0, 3) squares in between = (0, 1), (0, 2)
-
-    # (0, 0) - (2, 0) squares between = (1, 0)
-
     difference_x = (move_to_x - self.current_position_x) # .abs
     difference_y = (move_to_y - self.current_position_y) # .abs
     count = 1
-
-    # (0, 6) - (0, 4) spaces between = (0, 5)
-    # move_to_y = 4, self.current_position_y = 6, difference_y = -2
 
     # vertical
     if difference_x == 0
@@ -147,11 +128,6 @@ class Piece < ActiveRecord::Base
         false
       end
     end
-
-    # piece_6
-    # (7, 5) -> (5, 5)
-    # move_to_x = 5, self.current_position_x = 7, difference_x = -2
-    # (6, 5)
 
     # horizontal
     if difference_y == 0
@@ -177,14 +153,7 @@ class Piece < ActiveRecord::Base
 
     # diagonal
 
-# bottom left moving up and right
-    # piece 4
-    # start (0, 7), move_to (2, 5)
-    # move_to_x: 2 - current_position_x: 0 difference_x: 2
-    # move_to_y: 5 - current_position_y: 7 difference_y: -2
-    # count = 1
-    # space in between (1, 6)
-
+    # bottom left moving up and right
     if difference_x.abs == difference_y.abs
       while count < difference_x.abs
         if difference_x > 0 && difference_y < 0
@@ -196,11 +165,7 @@ class Piece < ActiveRecord::Base
             false
           end
 
-# bottom right moving up and left
-        # piece 6 -> (7, 5) move_to (5, 3)
-        # move_to_x: 5 - current_position_x: 7, difference_x: -2
-        # move_to_y: 3 - current_position_y: 5 difference_y: -2
-        # square between = (6, 4)
+        # bottom right moving up and left
         elsif difference_x < 0 && difference_y < 0
           piece = Piece.find_by(current_position_x: move_to_x + count, current_position_y: move_to_y + count)
           if piece.present?
@@ -209,11 +174,7 @@ class Piece < ActiveRecord::Base
             count += 1
             false
           end
-#top left moving down and right
-      # piece 1 (0, 0) -> (2, 2)
-      # move_to_x: 2, current_position_x: 0, difference_x: 2
-      # move_to_y: 2, current_position_y: 0, difference_y: 2
-      # space between (1, 1)
+        #top left moving down and right
         elsif difference_x > 0 && difference_y > 0
             piece = Piece.find_by(current_position_x: move_to_x - count, current_position_y: move_to_y - count)
             if piece.present?
@@ -222,12 +183,7 @@ class Piece < ActiveRecord::Base
               count += 1
               false
             end
-
-# top right moving down and left
-      # piece (7, 0) -> (5, 2)
-      # move_to_x: 5 current_position_x: 7 difference_x: -2
-      # move_to_y: 2 current_position_y: 0, difference_y: 2
-
+        # top right moving down and left
         elsif difference_x < 0 && difference_y > 0  # maybe should just be else
           piece = Piece.find_by(current_position_x: move_to_x + count, current_position_y: move_to_y - count)
           if piece.present?
