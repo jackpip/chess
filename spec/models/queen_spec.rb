@@ -45,7 +45,7 @@ require 'rails_helper'
       end
 
       it "Should return false when a move is invalid" do
-        game = FactoryGirl.create(:game, id: 999, white_user_id: 1, black_user_id: 2, winning_user_id: nil)
+        game = FactoryGirl.create(:game, id: 99, white_user_id: 1, black_user_id: 2, winning_user_id: nil)
         queen = FactoryGirl.create(:queen, color: "white", current_position_x: 3, current_position_y: 4, game_id: game.id)
          expect(queen.valid_move?(1,3)).to eq(false)
          expect(queen.valid_move?(6,5)).to eq(false)
