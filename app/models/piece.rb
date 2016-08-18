@@ -13,15 +13,15 @@ class Piece < ActiveRecord::Base
     #check move is not to the same square
     elsif current_position_x == move_to_x && current_position_y == move_to_y
       return false
-    # check move is not vertical, horizontal, or diagonal
-    elsif (difference_x.abs != difference_y.abs) && (difference_x != 0) && (difference_y != 0)
-      return false
+    # check move is a real move. Has to be vertical, horizontal, or diagonal
+    #elsif (difference_x.abs != difference_y.abs) && (difference_x != 0) && (difference_y != 0)
+      #return false
     #check move is not to square that contains player's own piece
     elsif move_to_piece.present? && self.color == move_to_piece.color
       return false
     # check whether move is obstructed
-    elsif obstructed?(move_to_x, move_to_y)
-      return false
+    #elsif obstructed?(move_to_x, move_to_y)
+      #return false
     else
       return true
     end
@@ -52,6 +52,7 @@ class Piece < ActiveRecord::Base
     "#{color}-#{type.downcase}.png"
   end
 
+=begin
   def is_obstructed?(x, y)
     piece = self
     current_x = piece.current_position_x
@@ -105,6 +106,7 @@ class Piece < ActiveRecord::Base
 
     false
   end
+=end
 
   def obstructed?(move_to_x, move_to_y)
     # we need to know the squares in between
