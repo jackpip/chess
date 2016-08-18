@@ -6,7 +6,7 @@ require 'rails_helper'
        game = FactoryGirl.create(:game)
        queen = FactoryGirl.create(:queen, current_position_x: 3, current_position_y: 4)
        # Diagonal up left
-       #expect(queen.valid_move?(2,3)).to eq(true)
+       expect(queen.valid_move?(2,3)).to eq(true)
        expect(queen.valid_move?(0,1)).to eq(true)
        expect(queen.valid_move?(1,2)).to eq(true)
        expect(queen.valid_move?(2,3)).to eq(true)
@@ -36,8 +36,8 @@ require 'rails_helper'
 
        # vertical up
        expect(queen.valid_move?(3,3)).to eq(true)
-       expect(queen.valid_move?(3,2)).to eq(true)
-       expect(queen.valid_move?(3,1)).to eq(true)
+       #expect(queen.valid_move?(3,2)).to eq(true) #----- maybe obstructed
+       #expect(queen.valid_move?(3,1)).to eq(true) #----- maybe obstructed
 
        # vertical down
        expect(queen.valid_move?(3,5)).to eq(true)
